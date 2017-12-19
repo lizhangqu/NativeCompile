@@ -1,4 +1,4 @@
-package io.github.lizhangqu.nativeplugin
+package io.github.lizhangqu.nativecompile.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -8,11 +8,11 @@ import org.gradle.api.file.CopySpec
 import org.gradle.api.file.FileCollection
 import org.gradle.util.GFileUtils
 
-class NativePlugin implements Plugin<Project> {
+class NativeCompilePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         //create extension
-        project.getExtensions().create("nativePlugin", NativeExtension.class, project)
+        project.getExtensions().create("nativeCompile", NativeCompileExtension.class, project)
         Configuration nativeCompileConfiguration = project.getConfigurations().create("nativeCompile") { Configuration nativeCompileConfiguration ->
             //禁止传递依赖
             nativeCompileConfiguration.setTransitive(false)
@@ -22,7 +22,7 @@ class NativePlugin implements Plugin<Project> {
             }
         }
         project.afterEvaluate {
-            NativeExtension nativeExtension = project.getExtensions().findByType(NativeExtension.class)
+            NativeCompileExtension nativeExtension = project.getExtensions().findByType(NativeCompileExtension.class)
             nativeCompileConfiguration.getDependencies().each { Dependency nativeDependency ->
                 FileCollection collection = nativeCompileConfiguration.fileCollection(nativeDependency).filter { File file ->
                     //返回so文件
@@ -37,7 +37,7 @@ class NativePlugin implements Plugin<Project> {
                     String classifier = srcFile.getName() - nativeDependency.getName() - "-" - nativeDependency.getVersion() - "-" - suffix
                     //如果classifier为空，则默认使用armeabi
                     if (classifier == null || classifier.length() == 0) {
-                        classifier = nativeExtension.classifier
+                        classifier = nativeExtension.defaultClassifier
                     }
                     //目标目录
                     File destDir = project.file("src/main/jniLibs/${classifier}/")

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'native-plugin'
-nativePlugin {
-    classifier 'armeabi-v7a'
+apply plugin: 'native-compile-plugin'
+
+nativeCompile {
+    defaultClassifier 'arm64-v8a'
 }
 android {
     compileSdkVersion 26
@@ -28,7 +29,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
 
 }
