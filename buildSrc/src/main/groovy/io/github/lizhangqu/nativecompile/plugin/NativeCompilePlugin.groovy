@@ -28,7 +28,6 @@ class NativeCompilePlugin implements Plugin<Project> {
 
     @SuppressWarnings("GrMethodMayBeStatic")
     void createConfiguration(Project project, String configurationName, File jniLibsDir) {
-        project.logger.error("jniLibsDir:${jniLibsDir}")
         Configuration nativeCompileConfiguration = project.getConfigurations().create(configurationName) { Configuration nativeCompileConfiguration ->
             //禁止传递依赖
             nativeCompileConfiguration.setTransitive(false)
