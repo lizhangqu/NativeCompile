@@ -1,4 +1,4 @@
-### Android Gradle Native Plugin
+### Android Gradle Native Compile Plugin
 
 依赖插件
 
@@ -9,11 +9,11 @@ buildscript {
     }
     dependencies {
         //未正式发布
-        classpath 'io.github.lizhangqu:native-plugin:1.0.0'
+        classpath 'io.github.lizhangqu:native-compile-plugin:1.0.0'
     }
 }
 
-apply plugin: 'native-plugin'
+apply plugin: 'native-compile-plugin'
 ```
 
 依赖动态库
