@@ -46,3 +46,6 @@ dependencies {
 ```
 
 在评估配置阶段，nativeCompile依赖会将对应的so拷贝到对一个的jniLibs下，命名方式为libname.so，如果对应的文件是以lib开头，则不添加lib前缀
+
+
+当前不支持将动态库拷贝到buildType或者flavor下的目录，需求强烈后续考虑添加
