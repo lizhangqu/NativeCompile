@@ -5,6 +5,14 @@ nativeCompile {
     defaultClassifier 'armeabi-v7a'
 }
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'lizhangqu'
+            keyPassword 'lizhangqu'
+            storeFile project.rootProject.file('debug.keystore')
+            storePassword 'lizhangqu'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
@@ -13,6 +21,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         debug {
