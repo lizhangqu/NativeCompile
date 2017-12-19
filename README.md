@@ -14,6 +14,10 @@ buildscript {
 }
 
 apply plugin: 'native-compile-plugin'
+
+nativeCompile {
+    defaultClassifier 'armeabi' //可选配置，如果依赖中没有指定classifier，则拷贝到此abi目录
+}
 ```
 
 依赖动态库
