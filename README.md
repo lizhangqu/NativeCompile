@@ -8,6 +8,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        //未正式发布
         classpath 'io.github.lizhangqu:native-plugin:1.0.0'
     }
 }
