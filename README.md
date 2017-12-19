@@ -28,13 +28,14 @@ dependencies {
 }
 ```
 
-其中classifier可选，其值为 armeabi, armeabi-v7a, arm64-v8a, x86, x86_64, mips, mips64其中一个，不是这些值会抛异常
+其中classifier可选，其值为 armeabi, armeabi-v7a, arm64-v8a, x86, x86_64, mips, mips64其中一个，不是这些值会抛异常。
+并且依赖中的ext @so为必选项，默认值为@jar，为了让其寻找so，需要手动指定为@so。不支持引入所有abi，只支持单个abi逐个引入
 
 如
 
 ```
 dependencies {
-    nativeCompile 'com.snappydb:snappydb-native:0.2.0:armeabi'
+    nativeCompile 'com.snappydb:snappydb-native:0.2.0:armeabi@so'
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:x86@so'
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:mips@so'
     nativeCompile "com.snappydb:snappydb-native:0.2.0:armeabi-v7a@so"

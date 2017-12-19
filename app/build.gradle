@@ -33,7 +33,7 @@ dependencies {
 
 
     nativeCompile 'com.android.support:appcompat-v7:26.1.0'
-    nativeCompile 'com.snappydb:snappydb-native:0.2.0:armeabi'
+    nativeCompile 'com.snappydb:snappydb-native:0.2.0:armeabi@so'
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:x86@so'
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:mips@so'
     nativeCompile "com.snappydb:snappydb-native:0.2.0:armeabi-v7a@so"
