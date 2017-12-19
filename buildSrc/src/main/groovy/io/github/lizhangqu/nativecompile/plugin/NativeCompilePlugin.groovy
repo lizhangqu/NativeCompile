@@ -54,7 +54,7 @@ class NativeCompilePlugin implements Plugin<Project> {
                     String suffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("."))
                     //依赖classifier
                     String classifier = srcFile.getName() - nativeDependency.getName() - "-" - nativeDependency.getVersion() - "-" - suffix
-                    //如果classifier为空，则默认使用armeabi
+                    //如果classifier为空，则默认使用配置中的
                     if (classifier == null || classifier.length() == 0) {
                         classifier = nativeExtension.defaultClassifier
                     }
@@ -64,7 +64,7 @@ class NativeCompilePlugin implements Plugin<Project> {
                     String destFileName = "${nativeDependency.getName().startsWith('lib') ? '' : 'lib'}${nativeDependency.getName()}.so"
                     //删除旧文件
                     GFileUtils.deleteQuietly(new File(destDir, destFileName))
-                    //拷贝源文件到目标
+                    //拷贝源文件到目标文件
                     project.copy { CopySpec copySpec ->
                         copySpec.from(srcFile)
                         copySpec.into(destDir)
