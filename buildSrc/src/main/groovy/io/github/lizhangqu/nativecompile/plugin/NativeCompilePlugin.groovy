@@ -41,8 +41,12 @@ class NativeCompilePlugin implements Plugin<Project> {
             NativeCompileExtension nativeExtension = project.getExtensions().findByType(NativeCompileExtension.class)
             nativeCompileConfiguration.getDependencies().each { Dependency nativeDependency ->
                 FileCollection collection = nativeCompileConfiguration.fileCollection(nativeDependency).filter { File file ->
+                    boolean filter = file.getName().endsWith(".so")
+                    if (!filter) {
+                        project.logger.error("ignore file ${file} becaues extension is not .so")
+                    }
                     //返回so文件
-                    return file.getName().endsWith(".so")
+                    return filter
                 }
                 //遍历
                 collection.files.each { File srcFile ->
