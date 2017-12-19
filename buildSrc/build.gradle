@@ -31,6 +31,9 @@ ext {
     SNAPSHOT_REPOSITORY_PASSWORD = ""
 }
 apply plugin: 'core.publish'
+release {
+    versionKey = 'PROJECT_POM_VERSION'
+}
 
 //remove install task compile 'com.android.tools.build:gradle:$androidGradlePluginVersion'
 install {
