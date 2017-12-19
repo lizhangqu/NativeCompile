@@ -11,9 +11,25 @@ import org.gradle.util.GFileUtils
 class NativeCompilePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        //create extension
+        def extension = project.getExtensions().findByName('android')
+        if (extension == null) {
+            return
+        }
         project.getExtensions().create("nativeCompile", NativeCompileExtension.class, project)
-        Configuration nativeCompileConfiguration = project.getConfigurations().create("nativeCompile") { Configuration nativeCompileConfiguration ->
+
+        def mainSourceSet = extension.getSourceSets().getByName(extension.getDefaultConfig().getName())
+        Set<File> jniLibsDirs = mainSourceSet.getJniLibs().getSrcDirs()
+        if (jniLibsDirs.size() == 0) {
+            mainSourceSet.getJniLibs().srcDirs(project.file("src/main/jniLibs"))
+        }
+        File jniLibsDir = mainSourceSet.getJniLibs().getSrcDirs().toList().get(0)
+        createConfiguration(project, 'nativeCompile', jniLibsDir)
+    }
+
+    @SuppressWarnings("GrMethodMayBeStatic")
+    void createConfiguration(Project project, String configurationName, File jniLibsDir) {
+        project.logger.error("jniLibsDir:${jniLibsDir}")
+        Configuration nativeCompileConfiguration = project.getConfigurations().create(configurationName) { Configuration nativeCompileConfiguration ->
             //禁止传递依赖
             nativeCompileConfiguration.setTransitive(false)
             nativeCompileConfiguration.resolutionStrategy {
@@ -21,13 +37,13 @@ class NativeCompilePlugin implements Plugin<Project> {
                 cacheDynamicVersionsFor(5, 'minutes')
             }
         }
+
         project.afterEvaluate {
             NativeCompileExtension nativeExtension = project.getExtensions().findByType(NativeCompileExtension.class)
             nativeCompileConfiguration.getDependencies().each { Dependency nativeDependency ->
                 FileCollection collection = nativeCompileConfiguration.fileCollection(nativeDependency).filter { File file ->
                     //返回so文件
-//                    return file.getName().endsWith(".so")
-                    return true
+                    return file.getName().endsWith(".so")
                 }
                 //遍历
                 collection.files.each { File srcFile ->
@@ -40,7 +56,7 @@ class NativeCompilePlugin implements Plugin<Project> {
                         classifier = nativeExtension.defaultClassifier
                     }
                     //目标目录
-                    File destDir = project.file("src/main/jniLibs/${classifier}/")
+                    File destDir = new File(jniLibsDir, classifier)
                     //目标文件名
                     String destFileName = "${nativeDependency.getName().startsWith('lib') ? '' : 'lib'}${nativeDependency.getName()}.so"
                     //删除旧文件

@@ -19,7 +19,7 @@ apply plugin: 'native-plugin'
 
 ```
 dependencies {
-    nativeCompile "$groupId:$name:$version:$classifier"
+    nativeCompile "$groupId:$name:$version:$classifier@so"
 }
 ```
 
