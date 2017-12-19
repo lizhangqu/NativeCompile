@@ -29,7 +29,8 @@ dependencies {
 ```
 
 其中classifier可选，其值为 armeabi, armeabi-v7a, arm64-v8a, x86, x86_64, mips, mips64其中一个，不是这些值会抛异常。
-并且依赖中的ext @so为必选项，默认值为@jar，为了让其寻找so，需要手动指定为@so。不支持引入所有abi，只支持单个abi逐个引入
+并且依赖中的ext @so是否需要携带取决于发布时默认的文件是否是so，如果存在classifier, 则@so为必选项，默认值为@jar，为了让其寻找so，需要手动指定为@so。
+不支持引入所有abi，只支持单个abi逐个引入
 
 如
 
@@ -50,7 +51,7 @@ dependencies {
 }
 ```
 
-在评估配置阶段，nativeCompile依赖会将对应的so拷贝到相应的jniLibs下，命名方式为libname.so，如果对应的文件是以lib开头，则不添加lib前缀
+在评估配置完成后，nativeCompile依赖会将对应的so拷贝到相应的jniLibs下，命名方式为libname.so，如果对应的文件是以lib开头，则不添加lib前缀
 
 
 当前不支持将动态库拷贝到buildType或者flavor下的目录，需求强烈后续考虑添加
