@@ -1,0 +1,67 @@
+apply plugin: 'groovy'
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'io.github.lizhangqu:core-publish:1.0.9'
+        //android gradle plugin 3.0.0以上请使用以下版本
+        //classpath 'io.github.lizhangqu:core-publish-gradle3.0.0:1.0.9'
+    }
+}
+
+repositories {
+    maven { url 'https://maven.google.com' }
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile "commons-io:commons-io:2.4"
+    compile 'commons-codec:commons-codec:1.9'
+//    compile "com.android.tools.build:gradle:2.3.3"
+}
+
+ext {
+    RELEASE_REPOSITORY_URL = "file://${project.rootProject.file('repo/release')}"
+    SNAPSHOT_REPOSITORY_URL = "file://${project.rootProject.file('repo/snapshot')}"
+    RELEASE_REPOSITORY_USERNAME = ""
+    RELEASE_REPOSITORY_PASSWORD = ""
+    SNAPSHOT_REPOSITORY_USERNAME = ""
+    SNAPSHOT_REPOSITORY_PASSWORD = ""
+}
+apply plugin: 'core.publish'
+
+//remove install task compile 'com.android.tools.build:gradle:$androidGradlePluginVersion'
+install {
+    repositories {
+        mavenInstaller {
+            pom {
+                whenConfigured { p ->
+                    p.dependencies = p.dependencies.findAll {
+                        dep -> (dep.groupId != "com.android.tools.build" && dep.artifactId != "gradle")
+                    }
+                }
+            }
+        }
+    }
+}
+//remove uploadArchives task compile 'com.android.tools.build:gradle:$androidGradlePluginVersion'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom {
+                whenConfigured { p ->
+                    p.dependencies = p.dependencies.findAll {
+                        dep -> (dep.groupId != "com.android.tools.build" && dep.artifactId != "gradle")
+                    }
+                }
+            }
+        }
+    }
+}
+
+
