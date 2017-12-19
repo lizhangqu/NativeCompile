@@ -50,7 +50,6 @@ class NativeCompilePlugin implements Plugin<Project> {
                 }
                 //遍历
                 collection.files.each { File srcFile ->
-                    project.logger.error("srcFile ${srcFile}")
                     //文件后缀
                     String suffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("."))
                     String classifierSuffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("-")) - "-"

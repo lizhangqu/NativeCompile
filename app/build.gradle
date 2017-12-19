@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'native-compile-plugin'
 
 nativeCompile {
-    defaultClassifier 'armeabi-v7a'
+    defaultClassifier 'armeabi'
 }
 android {
     signingConfigs {
@@ -47,5 +47,63 @@ dependencies {
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:mips@so'
     nativeCompile "com.snappydb:snappydb-native:0.2.0:armeabi-v7a@so"
 
+//    nativeCompile "io.github.lizhangqu:app-test:0.0.2-SNAPSHOT"
 }
 
+ext {
+    RELEASE_REPOSITORY_URL = "file://${project.rootProject.file('repo/release')}"
+    SNAPSHOT_REPOSITORY_URL = "file://${project.rootProject.file('repo/snapshot')}"
+    RELEASE_REPOSITORY_USERNAME = ""
+    RELEASE_REPOSITORY_PASSWORD = ""
+    SNAPSHOT_REPOSITORY_USERNAME = ""
+    SNAPSHOT_REPOSITORY_PASSWORD = ""
+}
+
+
+apply plugin: 'core.publish'
+release {
+    versionKey = 'PROJECT_POM_VERSION'
+}
+
+project.afterEvaluate {
+    project.tasks.all { Task task ->
+        //寻找assembleRelease
+        if (task.name.equalsIgnoreCase('assembleRelease')) {
+            task.doLast {
+                //寻找release的apk文件，并且已经签名过，将其拷贝成.so文件，添加到archives配置中
+                project.file("$buildDir/outputs/apk").eachFileRecurse { File file ->
+                    if (file.getName().startsWith("${archivesBaseName}")
+                            && file.getName().endsWith(".apk")
+                            && file.getName().contains("-release")
+                            && !file.getName().endsWith("-unsigned.apk")) {
+                        //文件后缀
+                        String suffix = file.getName().substring(file.getName().lastIndexOf("."))
+                        //新的带.so的文件名
+                        String newFileName = file.getName().replaceAll(suffix, ".so")
+                        //拷贝文件
+                        project.copy(new Action<CopySpec>() {
+                            @Override
+                            void execute(CopySpec copySpec) {
+                                copySpec.from(file)
+                                copySpec.into(file.getParentFile())
+                                copySpec.rename(file.getName(), newFileName)
+                            }
+                        })
+                        //添加到发布的待发布的配置中
+                        project.artifacts {
+                            archives file: new File(file.getParentFile(), newFileName)
+//                            必要时可发布classifier文件，发布的文件需要group:name:version:classifier才能拉下来
+                            archives classifier: 'armeabi', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'armeabi-v7a', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'arm64-v8a', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'x86', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'x86_64', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'mips', file: new File(file.getParentFile(), newFileName)
+                            archives classifier: 'mips64', file: new File(file.getParentFile(), newFileName)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
