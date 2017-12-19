@@ -50,12 +50,14 @@ class NativeCompilePlugin implements Plugin<Project> {
                 }
                 //遍历
                 collection.files.each { File srcFile ->
+                    project.logger.error("srcFile ${srcFile}")
                     //文件后缀
                     String suffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("."))
+                    String classifierSuffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("-")) - "-"
                     //依赖classifier
-                    String classifier = srcFile.getName() - nativeDependency.getName() - "-" - nativeDependency.getVersion() - "-" - suffix
+                    String classifier = classifierSuffix - suffix
                     //如果classifier为空，则默认使用配置中的
-                    if (classifier == null || classifier.length() == 0) {
+                    if (classifier == null || classifier.length() == 0 || !nativeExtension.ABI.contains(classifier)) {
                         classifier = nativeExtension.defaultClassifier
                     }
                     //目标目录
