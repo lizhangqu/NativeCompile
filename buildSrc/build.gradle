@@ -20,9 +20,6 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile "commons-io:commons-io:2.4"
-    compile 'commons-codec:commons-codec:1.9'
-//    compile "com.android.tools.build:gradle:2.3.3"
 }
 
 ext {
