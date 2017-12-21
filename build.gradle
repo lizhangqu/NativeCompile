@@ -2,19 +2,23 @@
 
 buildscript {
     repositories {
-        maven { url 'https://maven.google.com' }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'io.github.lizhangqu:core-publish:1.0.11'
+        classpath 'io.github.lizhangqu:core-publish:1.0.12'
+    }
+    configurations.all {
+        it.resolutionStrategy.cacheDynamicVersionsFor(5, "minutes")
+        it.resolutionStrategy.cacheChangingModulesFor(0, "seconds")
     }
 }
 
 allprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://maven.google.com' }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
         maven { url uri(project.rootProject.file("repo/snapshot")) }
         jcenter()
     }
