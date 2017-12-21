@@ -6,14 +6,16 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'io.github.lizhangqu:core-publish:1.0.11'
-        //android gradle plugin 3.0.0以上请使用以下版本
-        //classpath 'io.github.lizhangqu:core-publish-gradle3.0.0:1.0.9'
+        classpath 'io.github.lizhangqu:core-publish:1.0.12'
+    }
+    configurations.all {
+        it.resolutionStrategy.cacheDynamicVersionsFor(5, "minutes")
+        it.resolutionStrategy.cacheChangingModulesFor(0, "seconds")
     }
 }
 
 repositories {
-    maven { url 'https://maven.google.com' }
+    maven { url 'https://dl.google.com/dl/android/maven2/' }
     jcenter()
 }
 
@@ -31,10 +33,6 @@ ext {
     SNAPSHOT_REPOSITORY_PASSWORD = ""
 }
 apply plugin: 'core.publish'
-release {
-    versionKey = 'PROJECT_POM_VERSION'
-}
-
 //remove install task compile 'com.android.tools.build:gradle:$androidGradlePluginVersion'
 install {
     repositories {
