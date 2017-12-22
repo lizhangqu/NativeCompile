@@ -29,7 +29,7 @@ dependencies {
 ```
 
 其中classifier可选，其值为 armeabi, armeabi-v7a, arm64-v8a, x86, x86_64, mips, mips64其中一个，不是这些值会抛异常。
-并且依赖中的ext @so是否需要携带取决于发布时默认的文件是否是so，如果存在classifier, 则@so为必选项，默认值为@jar，为了让其寻找so，需要手动指定为@so。
+并且依赖中的ext @so是否需要携带取决于发布时默认的文件是否是so，即packaging是否为so。如果存在classifier, 则@so为必选项，默认值为@jar，为了让其寻找so，需要手动指定为@so。
 不支持引入所有abi，只支持单个abi逐个引入
 
 如
