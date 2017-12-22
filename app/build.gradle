@@ -57,14 +57,14 @@ dependencies {
     nativeCompile 'com.snappydb:snappydb-native:0.2.0:mips@so'
     nativeCompile "com.snappydb:snappydb-native:0.2.0:armeabi-v7a@so"
 
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:armeabi@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:armeabi-v7a@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:arm64-v8a@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:x86@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:x86_64@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:mips@so"
-    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:mips64@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:armeabi@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:armeabi-v7a@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:arm64-v8a@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:x86@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:x86_64@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:mips@so"
+//    nativeCompile "io.github.lizhangqu.bundle:host:1.0.0-SNAPSHOT:mips64@so"
 
 }
 
