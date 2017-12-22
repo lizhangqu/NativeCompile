@@ -42,7 +42,7 @@ apply plugin: 'native-compile-plugin'
 nativeCompile {
     defaultClassifier 'armeabi'
 }
-apply plugin: 'core.publish'
+//apply plugin: 'core.publish'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -68,50 +68,50 @@ dependencies {
 
 }
 
-project.afterEvaluate {
-    project.tasks.all { Task task ->
-        //寻找assembleRelease
-        if (task.name.equalsIgnoreCase('assembleRelease')) {
-            task.doLast {
-                //寻找release的apk文件，并且已经签名过，将其拷贝成.so文件，添加到archives配置中
-                project.file("$buildDir/outputs/apk").eachFileRecurse { File file ->
-                    if (file.getName().startsWith("${archivesBaseName}")
-                            && file.getName().endsWith(".apk")
-                            && file.getName().contains("-release")
-                            && !file.getName().endsWith("-unsigned.apk")) {
-                        //添加到发布的待发布的配置中
-                        project.artifacts {
-                            archives file: file, name: "host", extension: 'so', type: 'so'
-                            //必要时可发布classsifier文件，发布的文件需要group:name:version:classifier才能拉下来
-                            archives classifier: 'armeabi', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'armeabi-v7a', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'arm64-v8a', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'x86', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'x86_64', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'mips', file: file, name: "host", extension: 'so', type: 'so'
-                            archives classifier: 'mips64', file: file, name: "host", extension: 'so', type: 'so'
-                            //apk classsifier
-                            archives classifier: 'apk', file: file, name: "host", extension: 'apk', type: 'apk'
-                        }
-                    }
-                }
-            }
-        }
-    }
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                addFilter("host") { artifact, file ->
-                    artifact.name == "host"
-                }
-                pom("host") {
-                    groupId = 'io.github.lizhangqu.bundle'
-                    artifactId = "host"
-                    version = "1.0.0-SNAPSHOT"
-                    packaging = 'so'
-                }
-
-            }
-        }
-    }
-}
+//project.afterEvaluate {
+//    project.tasks.all { Task task ->
+//        //寻找assembleRelease
+//        if (task.name.equalsIgnoreCase('assembleRelease')) {
+//            task.doLast {
+//                //寻找release的apk文件，并且已经签名过，将其拷贝成.so文件，添加到archives配置中
+//                project.file("$buildDir/outputs/apk").eachFileRecurse { File file ->
+//                    if (file.getName().startsWith("${archivesBaseName}")
+//                            && file.getName().endsWith(".apk")
+//                            && file.getName().contains("-release")
+//                            && !file.getName().endsWith("-unsigned.apk")) {
+//                        //添加到发布的待发布的配置中
+//                        project.artifacts {
+//                            archives file: file, name: "host", extension: 'so', type: 'so'
+//                            //必要时可发布classsifier文件，发布的文件需要group:name:version:classifier才能拉下来
+//                            archives classifier: 'armeabi', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'armeabi-v7a', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'arm64-v8a', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'x86', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'x86_64', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'mips', file: file, name: "host", extension: 'so', type: 'so'
+//                            archives classifier: 'mips64', file: file, name: "host", extension: 'so', type: 'so'
+//                            //apk classsifier
+//                            archives classifier: 'apk', file: file, name: "host", extension: 'apk', type: 'apk'
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    uploadArchives {
+//        repositories {
+//            mavenDeployer {
+//                addFilter("host") { artifact, file ->
+//                    artifact.name == "host"
+//                }
+//                pom("host") {
+//                    groupId = 'io.github.lizhangqu.bundle'
+//                    artifactId = "host"
+//                    version = "1.0.0-SNAPSHOT"
+//                    packaging = 'so'
+//                }
+//
+//            }
+//        }
+//    }
+//}
