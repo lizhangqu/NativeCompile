@@ -55,10 +55,16 @@ class NativeCompilePlugin implements Plugin<Project> {
                     String classifierSuffix = srcFile.getName().substring(srcFile.getName().lastIndexOf("-")) - "-"
                     //依赖classifier
                     String classifier = classifierSuffix - suffix
+                    if (classifier.equalsIgnoreCase("v7a")) {
+                        classifier = "armeabi-v7a"
+                    } else if (classifier.equalsIgnoreCase("v8a")) {
+                        classifier = "arm64-v8a"
+                    }
                     //如果classifier为空，则默认使用配置中的
                     if (classifier == null || classifier.length() == 0 || !nativeExtension.ABI.contains(classifier)) {
                         classifier = nativeExtension.defaultClassifier
                     }
+                    project.logger.info("[NativeCompilePlugin] classifier ${classifier}")
                     //目标目录
                     File destDir = new File(jniLibsDir, classifier)
                     //目标文件名
