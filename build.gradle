@@ -20,6 +20,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         maven { url uri(project.rootProject.file("repo/snapshot")) }
+        maven { url uri(project.rootProject.file("repo/release")) }
         jcenter()
     }
 }
