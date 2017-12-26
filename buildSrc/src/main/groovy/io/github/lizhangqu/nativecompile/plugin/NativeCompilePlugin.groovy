@@ -43,7 +43,7 @@ class NativeCompilePlugin implements Plugin<Project> {
                 FileCollection collection = nativeCompileConfiguration.fileCollection(nativeDependency).filter { File file ->
                     boolean filter = file.getName().endsWith(".so")
                     if (!filter) {
-                        project.logger.error("ignore file ${file} becaues extension is not .so")
+                        project.logger.lifecycle("[NativeCompile] ignore file ${file} becaues extension is not .so")
                     }
                     //返回so文件
                     return filter
